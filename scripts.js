@@ -65,7 +65,7 @@ const evaluator = function() {
     } else {
         output.textContent = "ERROR";
     }
-    num1 = "";
+    num1 = result;
     num2 = "";
     operator = null;
 }
@@ -88,6 +88,13 @@ const performOperation = function() {
     return result
 }
 
+const clear = function() {
+    num1 = "";
+    num2 = "";
+    operator = null;
+    output.textContent = "";
+}
+
 // add event listeners for numbers
 for (let i = 0; i<10; i++) {
     let numKey = document.querySelector(`#${numIds[i]}`);
@@ -104,3 +111,7 @@ operators.forEach(op => {
 // add event listener for equal sign
 let eqButton = document.querySelector("#equals");
 eqButton.addEventListener("click", evaluator);
+
+// add event listener and button functionality for clear
+let clearButton = document.querySelector("#clear");
+clearButton.addEventListener("click", clear);
