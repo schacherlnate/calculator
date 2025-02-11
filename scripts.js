@@ -1,6 +1,7 @@
-let operator;
+let operator = null;
 let num1 ="";
 let num2 ="";
+let isDecimal = false;
 const output = document.querySelector("#output");
 
 const symbols = [7, 8, 9, "/",
@@ -68,6 +69,11 @@ const evaluator = function() {
     num1 = result;
     num2 = "";
     operator = null;
+    if (num1=="ERROR" || Math.floor(num1)===num1) {
+        isDecimal = false;
+    } else {
+        isDecimal = true;
+    }
 }
 
 const performOperation = function() {
@@ -92,7 +98,27 @@ const clear = function() {
     num1 = "";
     num2 = "";
     operator = null;
+    isDecimal = false;
     output.textContent = "";
+}
+
+const putDecimal = function() {
+    if (output.textContent==="ERROR") {
+        output.textContent="";
+    }
+    if (!isDecimal) {
+        if (!operator) {
+            num1 += ".";
+            output.textContent = num1;
+        } else {
+            num2 += ".";
+            output.textContent = num2;
+        }
+        isDecimal = true;
+    } else {
+        output.textContent = "ERROR";
+        clear();
+    }
 }
 
 // add event listeners for numbers
