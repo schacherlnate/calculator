@@ -7,11 +7,14 @@ const symbols = [7, 8, 9, "/",
                  4, 5, 6, "x",
                  1, 2, 3, "-",
                  0, ".", "=", "+"];
-const symbolIds = [7, 8, 9, "division",
-                   4, 5, 6, "multiply",
-                   1, 2, 3, "subtract",
-                   0, "point", "equals", "plus"];
+const symbolIds = ["seven", "eight", "nine", "division",
+                   "four", "five", "six", "multiply",
+                   "one", "two", "three", "subtract",
+                   "zero", "point", "equals", "plus"];
 const operators = ["division", "multiply", "subtract", "plus"];
+const numIds = ["zero", "one", "two", 
+                "three", "four", "five", 
+                "six", "seven", "eight", "nine"];
 const inputs = document.querySelector("#inputs");
 
 // insert all the buttons in order
@@ -24,31 +27,15 @@ for (let i = 0; i < symbols.length; i++) {
     inputs.appendChild(symbolDiv);
 }
 
-// add event listeners for numbers
-for (let i = 0; i<10; i++) {
-    let numKey = document.querySelector(`#${i}`);
-    numKey.addEventListener("click", numSetter);
-}
-
-// add event listeners for operators
-operators.forEach(op => {
-    let opButton = document.querySelector(`#${op}`);
-    opButton.addEventListener("click", operatorSetter);
-});
-
-// add event listener for equal sign
-let eqButton = document.querySelector("#equals");
-eqButton.addEventListener("click", evaluator);
-
 const numSetter = function (e) {
     if (output.textContent==="ERROR") {
         output.textContent="";
     }
     if (!operator) {
-        num1 += e.target.id;
+        num1 += e.target.dataset.val;
         output.textContent = num1;
     } else {
-        num2 += e.target.id;
+        num2 += e.target.dataset.val;
         output.textContent = num2;
     }
 }
@@ -85,11 +72,11 @@ const evaluator = function() {
 
 const performOperation = function() {
     let result;
-    if (operator=="+"){
+    if (operator=="plus"){
         result = Number(num1) + Number(num2);
-    } else if (operator=="-"){
+    } else if (operator=="subtract"){
         result = num1 - num2;
-    } else if (operator=="*"){
+    } else if (operator=="multiply"){
         result = num1 * num2;
     } else {
         if (num2==0) {
@@ -100,3 +87,20 @@ const performOperation = function() {
     }
     return result
 }
+
+// add event listeners for numbers
+for (let i = 0; i<10; i++) {
+    let numKey = document.querySelector(`#${numIds[i]}`);
+    numKey.dataset.val = i;
+    numKey.addEventListener("click", numSetter);
+}
+
+// add event listeners for operators
+operators.forEach(op => {
+    let opButton = document.querySelector(`#${op}`);
+    opButton.addEventListener("click", operatorSetter);
+});
+
+// add event listener for equal sign
+let eqButton = document.querySelector("#equals");
+eqButton.addEventListener("click", evaluator);
