@@ -47,33 +47,34 @@ const operatorSetter = function (e) {
         output.textContent = num1;
         operator = e.target.id;
         num2 = "";
+        isDecimal = false;
     } else if (operator || num1.length===0) {
+        clear();
         output.textContent = "ERROR";
-        num1 = "";
-        num2 = "";
-        operator = null;
     } else {
         // num1.length!=0 all is good, set operator
         operator = e.target.id;
+        isDecimal = false;
     }
 }
 
 const evaluator = function() {
+    let result;
     if (num2.length!=0) {
         // call operate function, get result
-        let result = performOperation();
-        output.textContent = result;
+        result = performOperation();
     } else {
-        output.textContent = "ERROR";
+        result = "ERROR";
     }
     num1 = result;
     num2 = "";
     operator = null;
-    if (num1=="ERROR" || Math.floor(num1)===num1) {
+    if (result=="ERROR" || Math.floor(result)===result) {
         isDecimal = false;
     } else {
         isDecimal = true;
     }
+    output.textContent = num1;
 }
 
 const performOperation = function() {
@@ -87,11 +88,12 @@ const performOperation = function() {
     } else {
         if (num2==0) {
             result = "ERROR";
+            return result;
         } else {
             result = num1 / num2;
         }
     }
-    return result
+    return Math.round(result*100)/100
 }
 
 const clear = function() {
@@ -141,3 +143,7 @@ eqButton.addEventListener("click", evaluator);
 // add event listener and button functionality for clear
 let clearButton = document.querySelector("#clear");
 clearButton.addEventListener("click", clear);
+
+// add event listener and button functionality for point
+let decimalButton = document.querySelector("#point");
+decimalButton.addEventListener("click", putDecimal);
